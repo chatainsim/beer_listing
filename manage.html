@@ -229,15 +229,49 @@
                     <select id="beerType" required 
                             class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
                         <option value="">Choisir...</option>
-                        <option value="IPA">IPA</option>
-                        <option value="Blonde">Blonde</option>
-                        <option value="Ambrée">Ambrée</option>
-                        <option value="Brune">Brune</option>
-                        <option value="Blanche">Blanche</option>
-                        <option value="Stout">Stout</option>
-                        <option value="Porter">Porter</option>
-                        <option value="Triple">Triple</option>
-                        <option value="Saison">Saison</option>
+                        <optgroup label="Ales">
+                            <option value="IPA">IPA (India Pale Ale)</option>
+                            <option value="Pale Ale">Pale Ale</option>
+                            <option value="Amber Ale">Amber Ale</option>
+                            <option value="Brown Ale">Brown Ale</option>
+                            <option value="Red Ale">Red Ale</option>
+                        </optgroup>
+                        <optgroup label="Blondes & Blanches">
+                            <option value="Blonde">Blonde</option>
+                            <option value="Blanche">Blanche / Witbier</option>
+                            <option value="Weizen">Weizen</option>
+                        </optgroup>
+                        <optgroup label="Ambrées & Brunes">
+                            <option value="Ambrée">Ambrée</option>
+                            <option value="Brune">Brune</option>
+                            <option value="Stout">Stout</option>
+                            <option value="Porter">Porter</option>
+                        </optgroup>
+                        <optgroup label="Belges">
+                            <option value="Triple">Triple</option>
+                            <option value="Dubbel">Dubbel</option>
+                            <option value="Quadrupel">Quadrupel</option>
+                            <option value="Saison">Saison</option>
+                            <option value="Abbaye">Abbaye</option>
+                            <option value="Trappiste">Trappiste</option>
+                        </optgroup>
+                        <optgroup label="Lagers">
+                            <option value="Lager">Lager</option>
+                            <option value="Pilsner">Pilsner</option>
+                            <option value="Bock">Bock</option>
+                            <option value="Dunkel">Dunkel</option>
+                        </optgroup>
+                        <optgroup label="Spécialités">
+                            <option value="Sour">Sour / Lambic</option>
+                            <option value="Gueuze">Gueuze</option>
+                            <option value="Kriek">Kriek</option>
+                            <option value="Fruitée">Fruitée</option>
+                            <option value="Fumée">Fumée</option>
+                            <option value="Barley Wine">Barley Wine</option>
+                        </optgroup>
+                        <optgroup label="Sans alcool">
+                            <option value="Sans alcool">Sans alcool</option>
+                        </optgroup>
                         <option value="Autre">Autre</option>
                     </select>
                 </div>
@@ -298,13 +332,50 @@
                 <select id="filterType" 
                         class="md:w-48 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
                     <option value="">Tous les types</option>
-                    <option value="IPA">IPA</option>
-                    <option value="Blonde">Blonde</option>
-                    <option value="Ambrée">Ambrée</option>
-                    <option value="Brune">Brune</option>
-                    <option value="Blanche">Blanche</option>
-                    <option value="Stout">Stout</option>
-                    <option value="Triple">Triple</option>
+                    <optgroup label="Ales">
+                        <option value="IPA">IPA</option>
+                        <option value="Pale Ale">Pale Ale</option>
+                        <option value="Amber Ale">Amber Ale</option>
+                        <option value="Brown Ale">Brown Ale</option>
+                        <option value="Red Ale">Red Ale</option>
+                    </optgroup>
+                    <optgroup label="Blondes & Blanches">
+                        <option value="Blonde">Blonde</option>
+                        <option value="Blanche">Blanche</option>
+                        <option value="Weizen">Weizen</option>
+                    </optgroup>
+                    <optgroup label="Ambrées & Brunes">
+                        <option value="Ambrée">Ambrée</option>
+                        <option value="Brune">Brune</option>
+                        <option value="Stout">Stout</option>
+                        <option value="Porter">Porter</option>
+                    </optgroup>
+                    <optgroup label="Belges">
+                        <option value="Triple">Triple</option>
+                        <option value="Dubbel">Dubbel</option>
+                        <option value="Quadrupel">Quadrupel</option>
+                        <option value="Saison">Saison</option>
+                        <option value="Abbaye">Abbaye</option>
+                        <option value="Trappiste">Trappiste</option>
+                    </optgroup>
+                    <optgroup label="Lagers">
+                        <option value="Lager">Lager</option>
+                        <option value="Pilsner">Pilsner</option>
+                        <option value="Bock">Bock</option>
+                        <option value="Dunkel">Dunkel</option>
+                    </optgroup>
+                    <optgroup label="Spécialités">
+                        <option value="Sour">Sour / Lambic</option>
+                        <option value="Gueuze">Gueuze</option>
+                        <option value="Kriek">Kriek</option>
+                        <option value="Fruitée">Fruitée</option>
+                        <option value="Fumée">Fumée</option>
+                        <option value="Barley Wine">Barley Wine</option>
+                    </optgroup>
+                    <optgroup label="Sans alcool">
+                        <option value="Sans alcool">Sans alcool</option>
+                    </optgroup>
+                    <option value="Autre">Autre</option>
                 </select>
             </div>
         </div>
@@ -570,15 +641,49 @@
                         <select id="editBeerType" required 
                                 class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
                             <option value="">Choisir...</option>
-                            <option value="IPA">IPA</option>
-                            <option value="Blonde">Blonde</option>
-                            <option value="Ambrée">Ambrée</option>
-                            <option value="Brune">Brune</option>
-                            <option value="Blanche">Blanche</option>
-                            <option value="Stout">Stout</option>
-                            <option value="Porter">Porter</option>
-                            <option value="Triple">Triple</option>
-                            <option value="Saison">Saison</option>
+                            <optgroup label="Ales">
+                                <option value="IPA">IPA (India Pale Ale)</option>
+                                <option value="Pale Ale">Pale Ale</option>
+                                <option value="Amber Ale">Amber Ale</option>
+                                <option value="Brown Ale">Brown Ale</option>
+                                <option value="Red Ale">Red Ale</option>
+                            </optgroup>
+                            <optgroup label="Blondes & Blanches">
+                                <option value="Blonde">Blonde</option>
+                                <option value="Blanche">Blanche / Witbier</option>
+                                <option value="Weizen">Weizen</option>
+                            </optgroup>
+                            <optgroup label="Ambrées & Brunes">
+                                <option value="Ambrée">Ambrée</option>
+                                <option value="Brune">Brune</option>
+                                <option value="Stout">Stout</option>
+                                <option value="Porter">Porter</option>
+                            </optgroup>
+                            <optgroup label="Belges">
+                                <option value="Triple">Triple</option>
+                                <option value="Dubbel">Dubbel</option>
+                                <option value="Quadrupel">Quadrupel</option>
+                                <option value="Saison">Saison</option>
+                                <option value="Abbaye">Abbaye</option>
+                                <option value="Trappiste">Trappiste</option>
+                            </optgroup>
+                            <optgroup label="Lagers">
+                                <option value="Lager">Lager</option>
+                                <option value="Pilsner">Pilsner</option>
+                                <option value="Bock">Bock</option>
+                                <option value="Dunkel">Dunkel</option>
+                            </optgroup>
+                            <optgroup label="Spécialités">
+                                <option value="Sour">Sour / Lambic</option>
+                                <option value="Gueuze">Gueuze</option>
+                                <option value="Kriek">Kriek</option>
+                                <option value="Fruitée">Fruitée</option>
+                                <option value="Fumée">Fumée</option>
+                                <option value="Barley Wine">Barley Wine</option>
+                            </optgroup>
+                            <optgroup label="Sans alcool">
+                                <option value="Sans alcool">Sans alcool</option>
+                            </optgroup>
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
@@ -837,15 +942,48 @@
 
         function getTypeColor(type) {
             const colors = {
+                // Ales
                 'IPA': 'bg-orange-500',
+                'Pale Ale': 'bg-orange-400',
+                'Amber Ale': 'bg-orange-600',
+                'Brown Ale': 'bg-amber-700',
+                'Red Ale': 'bg-red-600',
+                
+                // Blondes & Blanches
                 'Blonde': 'bg-yellow-400',
+                'Blanche': 'bg-blue-400',
+                'Weizen': 'bg-yellow-300',
+                
+                // Ambrées & Brunes
                 'Ambrée': 'bg-orange-600',
                 'Brune': 'bg-amber-800',
-                'Blanche': 'bg-blue-400',
                 'Stout': 'bg-gray-800',
                 'Porter': 'bg-amber-900',
+                
+                // Belges
                 'Triple': 'bg-yellow-500',
-                'Saison': 'bg-green-400'
+                'Dubbel': 'bg-amber-700',
+                'Quadrupel': 'bg-amber-900',
+                'Saison': 'bg-green-400',
+                'Abbaye': 'bg-amber-600',
+                'Trappiste': 'bg-amber-700',
+                
+                // Lagers
+                'Lager': 'bg-yellow-300',
+                'Pilsner': 'bg-yellow-400',
+                'Bock': 'bg-amber-600',
+                'Dunkel': 'bg-amber-800',
+                
+                // Spécialités
+                'Sour': 'bg-pink-400',
+                'Gueuze': 'bg-pink-500',
+                'Kriek': 'bg-red-500',
+                'Fruitée': 'bg-rose-400',
+                'Fumée': 'bg-gray-700',
+                'Barley Wine': 'bg-red-700',
+                
+                // Sans alcool
+                'Sans alcool': 'bg-green-500'
             };
             return colors[type] || 'bg-purple-500';
         }
