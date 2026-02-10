@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "exportDate": "2026-02-10T12:50:12.165Z",
+  "exportDate": "2026-02-10T14:00:14.234Z",
   "beers": [
     {
       "name": "StoutStout",
@@ -86,6 +86,7 @@
   "stats": {
     "total": 8,
     "total33cl": 31,
-    "total75cl": 20
+    "total75cl": 20,
+    "totalLiters": "25.2"
   }
 }
