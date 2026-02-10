@@ -531,6 +531,113 @@
         </div>
     </div>
 
+    <!-- Modal Édition de bière -->
+    <div id="editBeerModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50 p-4" onclick="if(event.target === this) closeEditBeer()">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="gradient-header text-white p-6 rounded-t-2xl">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">
+                        <i class="fas fa-edit"></i> Modifier la bière
+                    </h2>
+                    <button onclick="closeEditBeer()" class="text-3xl hover:text-gray-200">&times;</button>
+                </div>
+            </div>
+            <div class="p-6 md:p-8">
+                <form id="editBeerForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="hidden" id="editBeerIndex">
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nom *</label>
+                        <input type="text" id="editBeerName" required 
+                               class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                               placeholder="Ex: Triple Karmeliet">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Type *</label>
+                        <select id="editBeerType" required 
+                                class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
+                            <option value="">Choisir...</option>
+                            <option value="IPA">IPA</option>
+                            <option value="Blonde">Blonde</option>
+                            <option value="Ambrée">Ambrée</option>
+                            <option value="Brune">Brune</option>
+                            <option value="Blanche">Blanche</option>
+                            <option value="Stout">Stout</option>
+                            <option value="Porter">Porter</option>
+                            <option value="Triple">Triple</option>
+                            <option value="Saison">Saison</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Degré (%)</label>
+                        <input type="number" id="editBeerABV" step="0.1" min="0" max="20"
+                               class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                               placeholder="Ex: 6.5">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stock 33cl</label>
+                        <input type="number" id="editStock33cl" min="0" value="0" required 
+                               class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Stock 75cl</label>
+                        <input type="number" id="editStock75cl" min="0" value="0" required 
+                               class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Origine</label>
+                        <input type="text" id="editBeerOrigin"
+                               class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                               placeholder="Ex: Belgique">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Photo de la bière</label>
+                        <div class="mb-3" id="currentPhotoContainer" style="display: none;">
+                            <p class="text-sm text-gray-600 mb-2">Photo actuelle :</p>
+                            <img id="editCurrentPhoto" class="w-48 h-32 object-cover rounded-lg border-2 border-gray-200">
+                        </div>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="editBeerPhoto" accept="image/*" onchange="previewEditImage(event)">
+                            <label for="editBeerPhoto" id="editPhotoLabel" class="file-upload-label">
+                                <i class="fas fa-camera text-2xl text-gray-400 mb-2"></i>
+                                <p class="text-sm text-gray-600">Cliquez pour changer la photo</p>
+                            </label>
+                        </div>
+                        <img id="editPhotoPreview" class="image-upload-preview hidden">
+                        <button type="button" onclick="removeEditPhoto()" id="removePhotoBtn" class="mt-2 text-sm text-red-600 hover:text-red-800" style="display: none;">
+                            <i class="fas fa-times"></i> Supprimer la photo
+                        </button>
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                        <textarea id="editBeerDescription" rows="3"
+                                  class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition"
+                                  placeholder="Notes de dégustation, arômes..."></textarea>
+                    </div>
+                    
+                    <div class="md:col-span-2 flex gap-3">
+                        <button type="submit" 
+                                class="flex-1 btn-primary text-white font-bold py-3 px-6 rounded-lg">
+                            <i class="fas fa-save"></i> Enregistrer les modifications
+                        </button>
+                        <button type="button" onclick="closeEditBeer()" 
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                            Annuler
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         let beers = JSON.parse(localStorage.getItem('beers')) || [];
         let filteredBeers = [...beers];
@@ -688,6 +795,10 @@
                                 class="w-full bg-gray-100 hover:bg-red-50 text-red-600 font-bold py-2 rounded-lg transition border-2 border-gray-200 hover:border-red-300">
                             <i class="fas fa-trash"></i> Supprimer
                         </button>
+                        <button onclick="editBeer(${originalIndex})" 
+                                class="w-full mt-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 rounded-lg transition border-2 border-blue-200 hover:border-blue-400">
+                            <i class="fas fa-edit"></i> Modifier
+                        </button>
                     </div>
                 </div>
             `}).join('');
@@ -714,6 +825,112 @@
                 showNotification('"' + name + '" supprimée');
             }
         }
+
+        let editPhotoBase64 = null;
+        let keepCurrentPhoto = true;
+
+        function editBeer(index) {
+            const beer = beers[index];
+            
+            // Remplir le formulaire
+            document.getElementById('editBeerIndex').value = index;
+            document.getElementById('editBeerName').value = beer.name;
+            document.getElementById('editBeerType').value = beer.type;
+            document.getElementById('editBeerABV').value = beer.abv || '';
+            document.getElementById('editStock33cl').value = beer.stock33cl;
+            document.getElementById('editStock75cl').value = beer.stock75cl;
+            document.getElementById('editBeerOrigin').value = beer.origin || '';
+            document.getElementById('editBeerDescription').value = beer.description || '';
+            
+            // Gérer la photo
+            editPhotoBase64 = null;
+            keepCurrentPhoto = true;
+            
+            if (beer.photo) {
+                document.getElementById('currentPhotoContainer').style.display = 'block';
+                document.getElementById('editCurrentPhoto').src = beer.photo;
+                document.getElementById('removePhotoBtn').style.display = 'block';
+            } else {
+                document.getElementById('currentPhotoContainer').style.display = 'none';
+                document.getElementById('removePhotoBtn').style.display = 'none';
+            }
+            
+            document.getElementById('editPhotoPreview').classList.add('hidden');
+            document.getElementById('editPhotoLabel').classList.remove('has-file');
+            document.getElementById('editPhotoLabel').innerHTML = '<i class="fas fa-camera text-2xl text-gray-400 mb-2"></i><p class="text-sm text-gray-600">Cliquez pour changer la photo</p>';
+            
+            // Ouvrir la modal
+            document.getElementById('editBeerModal').classList.remove('hidden');
+            document.getElementById('editBeerModal').classList.add('flex');
+        }
+
+        function closeEditBeer() {
+            document.getElementById('editBeerModal').classList.add('hidden');
+            document.getElementById('editBeerModal').classList.remove('flex');
+            document.getElementById('editBeerForm').reset();
+            editPhotoBase64 = null;
+            keepCurrentPhoto = true;
+        }
+
+        function previewEditImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    editPhotoBase64 = e.target.result;
+                    keepCurrentPhoto = false;
+                    const preview = document.getElementById('editPhotoPreview');
+                    preview.src = editPhotoBase64;
+                    preview.classList.remove('hidden');
+                    document.getElementById('editPhotoLabel').classList.add('has-file');
+                    document.getElementById('editPhotoLabel').innerHTML = '<i class="fas fa-check-circle text-2xl text-green-500 mb-2"></i><p class="text-sm text-green-600 font-semibold">Nouvelle photo sélectionnée</p>';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeEditPhoto() {
+            if (confirm('Voulez-vous vraiment supprimer la photo de cette bière ?')) {
+                editPhotoBase64 = null;
+                keepCurrentPhoto = false;
+                document.getElementById('currentPhotoContainer').style.display = 'none';
+                document.getElementById('editPhotoPreview').classList.add('hidden');
+                document.getElementById('removePhotoBtn').style.display = 'none';
+                document.getElementById('editPhotoLabel').classList.remove('has-file');
+                document.getElementById('editPhotoLabel').innerHTML = '<i class="fas fa-camera text-2xl text-gray-400 mb-2"></i><p class="text-sm text-gray-600">Cliquez pour ajouter une photo</p>';
+            }
+        }
+
+        document.getElementById('editBeerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const index = parseInt(document.getElementById('editBeerIndex').value);
+            const beer = beers[index];
+            
+            // Mettre à jour les données
+            beer.name = document.getElementById('editBeerName').value;
+            beer.type = document.getElementById('editBeerType').value;
+            beer.abv = document.getElementById('editBeerABV').value;
+            beer.stock33cl = parseInt(document.getElementById('editStock33cl').value);
+            beer.stock75cl = parseInt(document.getElementById('editStock75cl').value);
+            beer.origin = document.getElementById('editBeerOrigin').value;
+            beer.description = document.getElementById('editBeerDescription').value;
+            
+            // Gérer la photo
+            if (editPhotoBase64) {
+                // Nouvelle photo uploadée
+                beer.photo = editPhotoBase64;
+            } else if (!keepCurrentPhoto) {
+                // Photo supprimée
+                beer.photo = null;
+            }
+            // Sinon, on garde la photo existante
+            
+            saveBeers();
+            applyFilters();
+            closeEditBeer();
+            showNotification('"' + beer.name + '" modifiée avec succès !');
+        });
 
         function applyFilters() {
             const search = document.getElementById('searchInput').value.toLowerCase();
