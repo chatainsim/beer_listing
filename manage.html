@@ -1093,6 +1093,18 @@
                                 class="w-full mt-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 rounded-lg transition border-2 border-blue-200 hover:border-blue-400">
                             <i class="fas fa-edit"></i> Modifier
                         </button>
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="moveBeerUp(${originalIndex})" 
+                                    ${originalIndex === 0 ? 'disabled' : ''}
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg transition border-2 border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-arrow-up"></i> Monter
+                            </button>
+                            <button onclick="moveBeerDown(${originalIndex})" 
+                                    ${originalIndex === beers.length - 1 ? 'disabled' : ''}
+                                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg transition border-2 border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fas fa-arrow-down"></i> Descendre
+                            </button>
+                        </div>
                     </div>
                 </div>
             `}).join('');
@@ -1117,6 +1129,32 @@
                 saveBeers();
                 applyFilters();
                 showNotification('"' + name + '" supprimée');
+            }
+        }
+
+        function moveBeerUp(index) {
+            if (index > 0) {
+                // Échanger avec la bière précédente
+                const temp = beers[index];
+                beers[index] = beers[index - 1];
+                beers[index - 1] = temp;
+                
+                saveBeers();
+                applyFilters();
+                showNotification('Bière déplacée vers le haut');
+            }
+        }
+
+        function moveBeerDown(index) {
+            if (index < beers.length - 1) {
+                // Échanger avec la bière suivante
+                const temp = beers[index];
+                beers[index] = beers[index + 1];
+                beers[index + 1] = temp;
+                
+                saveBeers();
+                applyFilters();
+                showNotification('Bière déplacée vers le bas');
             }
         }
 
@@ -1643,9 +1681,12 @@
                 beerCards += '<div class="card overflow-hidden">';
                 
                 if (beer.photo) {
+                    beerCards += '<div class="beer-image-container" data-src="' + beer.photo.replace(/"/g, '&quot;') + '" data-name="' + safeName.replace(/"/g, '&quot;') + '">';
                     beerCards += '<img src="' + beer.photo + '" alt="' + safeName + '" class="beer-image">';
+                    beerCards += '<div class="image-overlay"><i class="fas fa-search-plus"></i></div>';
+                    beerCards += '</div>';
                 } else {
-                    beerCards += '<div class="bg-gradient-to-br from-gray-100 to-gray-200 h-64 flex items-center justify-center"><i class="fas fa-beer text-8xl text-gray-400"></i></div>';
+                    beerCards += '<div class="bg-gradient-to-br from-gray-100 to-gray-200 h-96 flex items-center justify-center"><i class="fas fa-beer text-8xl text-gray-400"></i></div>';
                 }
                 
                 beerCards += '<div class="p-6">';
@@ -1682,7 +1723,92 @@
                 beerCards += '</div></div>';
             });
             
-            return '<!DOCTYPE html>\n<html lang="fr">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Ma Cave à Bières - Vitrine</title>\n    <script src="https://cdn.tailwindcss.com"><\/script>\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">\n    <style>\n        @import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap\');\n        \n        * {\n            font-family: \'Inter\', sans-serif;\n        }\n\n        body {\n            background: linear-gradient(to bottom right, #1e293b, #334155, #475569);\n            min-height: 100vh;\n        }\n\n        .card {\n            background: white;\n            border-radius: 1rem;\n            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);\n            transition: all 0.3s ease;\n        }\n\n        .card:hover {\n            transform: translateY(-4px);\n            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);\n        }\n\n        .gradient-header {\n            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n        }\n\n        .beer-image {\n            width: 100%;\n            height: 250px;\n            object-fit: cover;\n        }\n\n        .stock-badge {\n            display: inline-block;\n            padding: 0.5rem 1rem;\n            border-radius: 9999px;\n            font-size: 0.875rem;\n            font-weight: 600;\n        }\n\n        .stock-low {\n            background: #fef3c7;\n            color: #92400e;\n        }\n\n        .stock-ok {\n            background: #d1fae5;\n            color: #065f46;\n        }\n\n        .stock-empty {\n            background: #fee2e2;\n            color: #991b1b;\n        }\n    </style>\n</head>\n<body class="p-4 md:p-8">\n    <div class="max-w-7xl mx-auto">\n        <div class="card gradient-header text-white p-8 md:p-12 mb-8 text-center">\n            <h1 class="text-4xl md:text-6xl font-bold mb-4">\n                <i class="fas fa-beer"></i> Ma Cave à Bières\n            </h1>\n            <p class="text-xl md:text-2xl opacity-90">Collection Premium</p>\n            <p class="text-lg mt-2 opacity-75">Dernière mise à jour : ' + currentDate + '</p>\n        </div>\n\n        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">\n            <div class="card p-8 text-center">\n                <div class="text-5xl font-bold text-purple-600">' + totalBeers + '</div>\n                <div class="text-gray-600 font-medium mt-2 text-lg">Bières différentes</div>\n            </div>\n            <div class="card p-8 text-center">\n                <div class="text-5xl font-bold text-blue-600">' + total33 + '</div>\n                <div class="text-gray-600 font-medium mt-2 text-lg">Bouteilles 33cl</div>\n            </div>\n            <div class="card p-8 text-center">\n                <div class="text-5xl font-bold text-indigo-600">' + total75 + '</div>\n                <div class="text-gray-600 font-medium mt-2 text-lg">Bouteilles 75cl</div>\n            </div>\n            <div class="card p-8 text-center">\n                <div class="text-5xl font-bold text-green-600">' + totalLiters + '</div>\n                <div class="text-gray-600 font-medium mt-2 text-lg">Litres totaux</div>\n            </div>\n        </div>\n\n        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">\n            ' + beerCards + '\n        </div>\n\n        <div class="text-center text-white mt-12 pb-8">\n            <p class="text-lg opacity-75">\n                <i class="fas fa-beer"></i> Collection générée automatiquement\n            </p>\n        </div>\n    </div>\n</body>\n</html>';
+            const html = '<!DOCTYPE html>\n' +
+'<html lang="fr">\n' +
+'<head>\n' +
+'    <meta charset="UTF-8">\n' +
+'    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'    <title>Ma Cave à Bières - Vitrine</title>\n' +
+'    <script src="https://cdn.tailwindcss.com"><\/script>\n' +
+'    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">\n' +
+'    <style>\n' +
+'        @import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap\');\n' +
+'        * { font-family: \'Inter\', sans-serif; }\n' +
+'        body { background: linear-gradient(to bottom right, #1e293b, #334155, #475569); min-height: 100vh; }\n' +
+'        .card { background: white; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: all 0.3s ease; }\n' +
+'        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }\n' +
+'        .gradient-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }\n' +
+'        .beer-image-container { position: relative; width: 100%; height: 400px; overflow: hidden; cursor: pointer; }\n' +
+'        .beer-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }\n' +
+'        .beer-image-container:hover .beer-image { transform: scale(1.05); }\n' +
+'        .image-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }\n' +
+'        .image-overlay i { color: white; font-size: 3rem; }\n' +
+'        .beer-image-container:hover .image-overlay { opacity: 1; }\n' +
+'        .lightbox { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); align-items: center; justify-content: center; }\n' +
+'        .lightbox-content { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }\n' +
+'        .lightbox-close { position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }\n' +
+'        .lightbox-close:hover { color: #bbb; }\n' +
+'        .lightbox-caption { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: #fff; font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }\n' +
+'        .stock-badge { display: inline-block; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; }\n' +
+'        .stock-low { background: #fef3c7; color: #92400e; }\n' +
+'        .stock-ok { background: #d1fae5; color: #065f46; }\n' +
+'        .stock-empty { background: #fee2e2; color: #991b1b; }\n' +
+'    </style>\n' +
+'</head>\n' +
+'<body class="p-4 md:p-8">\n' +
+'    <div id="lightbox" class="lightbox" onclick="closeLightbox()">\n' +
+'        <span class="lightbox-close">&times;</span>\n' +
+'        <img id="lightbox-img" class="lightbox-content">\n' +
+'        <div id="lightbox-caption" class="lightbox-caption"></div>\n' +
+'    </div>\n' +
+'    <div class="max-w-7xl mx-auto">\n' +
+'        <div class="card gradient-header text-white p-8 md:p-12 mb-8 text-center">\n' +
+'            <h1 class="text-4xl md:text-6xl font-bold mb-4"><i class="fas fa-beer"></i> Ma Cave à Bières</h1>\n' +
+'            <p class="text-xl md:text-2xl opacity-90">Collection Premium</p>\n' +
+'            <p class="text-lg mt-2 opacity-75">Dernière mise à jour : ' + currentDate + '</p>\n' +
+'        </div>\n' +
+'        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">\n' +
+'            <div class="card p-8 text-center"><div class="text-5xl font-bold text-purple-600">' + totalBeers + '</div><div class="text-gray-600 font-medium mt-2 text-lg">Bières différentes</div></div>\n' +
+'            <div class="card p-8 text-center"><div class="text-5xl font-bold text-blue-600">' + total33 + '</div><div class="text-gray-600 font-medium mt-2 text-lg">Bouteilles 33cl</div></div>\n' +
+'            <div class="card p-8 text-center"><div class="text-5xl font-bold text-indigo-600">' + total75 + '</div><div class="text-gray-600 font-medium mt-2 text-lg">Bouteilles 75cl</div></div>\n' +
+'            <div class="card p-8 text-center"><div class="text-5xl font-bold text-green-600">' + totalLiters + '</div><div class="text-gray-600 font-medium mt-2 text-lg">Litres totaux</div></div>\n' +
+'        </div>\n' +
+'        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">\n' +
+'            ' + beerCards + '\n' +
+'        </div>\n' +
+'        <div class="text-center text-white mt-12 pb-8"><p class="text-lg opacity-75"><i class="fas fa-beer"></i> Collection générée automatiquement</p></div>\n' +
+'    </div>\n' +
+'    <script>\n' +
+'        function openLightbox(src, caption) {\n' +
+'            document.getElementById("lightbox").style.display = "flex";\n' +
+'            document.getElementById("lightbox-img").src = src;\n' +
+'            document.getElementById("lightbox-caption").innerHTML = caption;\n' +
+'            document.body.style.overflow = "hidden";\n' +
+'        }\n' +
+'        function closeLightbox() {\n' +
+'            document.getElementById("lightbox").style.display = "none";\n' +
+'            document.body.style.overflow = "auto";\n' +
+'        }\n' +
+'        document.addEventListener("keydown", function(e) {\n' +
+'            if (e.key === "Escape") closeLightbox();\n' +
+'        });\n' +
+'        document.addEventListener("DOMContentLoaded", function() {\n' +
+'            var containers = document.querySelectorAll(".beer-image-container");\n' +
+'            containers.forEach(function(container) {\n' +
+'                container.addEventListener("click", function() {\n' +
+'                    var src = this.getAttribute("data-src");\n' +
+'                    var name = this.getAttribute("data-name");\n' +
+'                    if (src && name) {\n' +
+'                        openLightbox(src, name);\n' +
+'                    }\n' +
+'                });\n' +
+'            });\n' +
+'        });\n' +
+'    <\/script>\n' +
+'</body>\n' +
+'</html>';
+            
+            return html;
         }
 
         document.getElementById('githubConfigForm').addEventListener('submit', function(e) {
