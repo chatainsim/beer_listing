@@ -17,16 +17,30 @@ h1{font-size:2.2rem;font-weight:900;color:var(--amber);letter-spacing:-.03em;mar
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;max-width:1200px;margin:0 auto;padding:0 16px 60px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
 .card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.55)}
-.card-img{width:100%;height:210px;object-fit:cover;display:block}
+.card-img{width:100%;height:210px;object-fit:cover;display:block;cursor:zoom-in;transition:opacity .15s}.card-img:hover{opacity:.9}
 .card-img-ph{height:110px;background:linear-gradient(135deg,#1e1e1e,#262626);display:flex;align-items:center;justify-content:center;font-size:3rem;color:#333}
-.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:8px}
+#lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;cursor:zoom-out;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:20px}
+#lb.open{display:flex}
+#lb img{max-width:92vw;max-height:82vh;object-fit:contain;border-radius:10px;box-shadow:0 24px 80px rgba(0,0,0,.7)}
+#lb-caption{font-size:.9rem;color:#ccc;max-width:80vw;text-align:center}
+#lb-close{position:fixed;top:16px;right:20px;font-size:1.6rem;color:#aaa;cursor:pointer;background:none;border:none;line-height:1;padding:4px 8px}
+#lb-close:hover{color:#fff}
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:9px}
 .card-name{font-size:1.08rem;font-weight:700;line-height:1.3}
 .card-type{font-size:.79rem;color:var(--amber);font-style:italic}
-.badges{display:flex;flex-wrap:wrap;gap:5px}
-.badge{border-radius:20px;padding:2px 10px;font-size:.74rem;border:1px solid}
-.badge-abv{color:var(--hop);border-color:#7ec84533;background:#7ec84511}
-.badge-stock{color:var(--info);border-color:#60a5fa33;background:#60a5fa11}
-.badge-zero{color:#444;border-color:#333;background:transparent}
+.card-abv{font-size:.8rem;color:#999}
+.card-abv strong{color:var(--hop);font-size:.95rem}
+.stock-row{display:flex;background:#111;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.stock-sep{width:1px;background:var(--border);flex-shrink:0}
+.si{flex:1;padding:10px 12px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.si-n{font-size:2rem;font-weight:800;line-height:1}
+.si-l{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.si-bar{width:80%;height:4px;background:#2a2a2a;border-radius:2px;margin-top:5px}
+.si-fill{height:100%;border-radius:2px}
+.si-empty{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.si.ok  .si-n{color:#4ade80}.si.ok  .si-fill{background:#4ade80}
+.si.low .si-n{color:#f59e0b}.si.low .si-fill{background:#f59e0b}
+.si.zero .si-n{color:#333}.si.zero .si-empty{color:#c0392b}
 .card-origin{font-size:.75rem;color:var(--muted)}
 .card-desc{font-size:.82rem;color:#aaa;line-height:1.55;flex:1}
 .card-foot{font-size:.71rem;color:#555;display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;padding-top:8px;border-top:1px solid var(--border);align-items:center}
@@ -52,10 +66,23 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
       <div class="card-body">
         <div class="card-name">Test</div>
         <div class="card-type">Session IPA</div>
-        <div class="badges">
-          <span class="badge badge-abv">ABV 5.5 %</span>
-          <span class="badge badge-zero">33 cl · épuisé</span>
-          <span class="badge badge-zero">75 cl · épuisé</span>
+        <div class="card-abv">ABV <strong>5.5 %</strong></div>
+        <div class="stock-row">
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">33 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">75 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
         </div>
         
         
@@ -63,14 +90,27 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
       </div>
     </div>
     <div class="card">
-      <img class="card-img" src="images/beer-4.jpg" loading="lazy" alt="Black Hops">
+      <img class="card-img" src="images/beer-4.jpg" loading="lazy" alt="Black Hops" onclick="openLb(this,'Black Hops')">
       <div class="card-body">
         <div class="card-name">Black Hops</div>
         <div class="card-type">21B. Specialty IPA: Black IPA</div>
-        <div class="badges">
-          <span class="badge badge-abv">ABV 6.0 %</span>
-          <span class="badge badge-stock">33 cl · 5</span>
-          <span class="badge badge-stock">75 cl · 7</span>
+        <div class="card-abv">ABV <strong>6.0 %</strong></div>
+        <div class="stock-row">
+          
+      <div class="si ok">
+        <div class="si-n">5</div>
+        <div class="si-l">33 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si ok">
+        <div class="si-n">7</div>
+        <div class="si-l">75 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:88%"></div></div>
+        
+      </div>
         </div>
         
         
@@ -78,14 +118,27 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
       </div>
     </div>
     <div class="card">
-      <img class="card-img" src="images/beer-3.jpg" loading="lazy" alt="StoutStout">
+      <img class="card-img" src="images/beer-3.jpg" loading="lazy" alt="StoutStout" onclick="openLb(this,'StoutStout')">
       <div class="card-body">
         <div class="card-name">StoutStout</div>
         <div class="card-type">15B. Irish Stout</div>
-        <div class="badges">
-          <span class="badge badge-abv">ABV 4.7 %</span>
-          <span class="badge badge-stock">33 cl · 6</span>
-          <span class="badge badge-stock">75 cl · 7</span>
+        <div class="card-abv">ABV <strong>4.7 %</strong></div>
+        <div class="stock-row">
+          
+      <div class="si ok">
+        <div class="si-n">6</div>
+        <div class="si-l">33 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si ok">
+        <div class="si-n">7</div>
+        <div class="si-l">75 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:88%"></div></div>
+        
+      </div>
         </div>
         
         
@@ -94,5 +147,24 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
     </div>
 </div>
 <footer>Généré par BrewHome</footer>
+
+<div id="lb" onclick="closeLb()">
+  <button id="lb-close" onclick="closeLb()" title="Fermer">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+<script>
+function openLb(el, name) {
+  document.getElementById('lb-img').src = el.src;
+  document.getElementById('lb-caption').textContent = name;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLb() {
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+</script>
 </body>
 </html>
