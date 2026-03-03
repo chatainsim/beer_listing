@@ -49,6 +49,14 @@ h1{font-size:2.2rem;font-weight:900;color:var(--amber);letter-spacing:-.03em;mar
 footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px solid var(--border)}
 .appname{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--amber);opacity:.75;margin-bottom:10px}
 .card-brand{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);opacity:.45;text-align:right;margin-top:4px}
+.keg-row{display:flex;align-items:center;gap:10px;background:rgba(245,166,35,.07);border:1px solid rgba(245,166,35,.2);border-radius:9px;padding:8px 12px}
+.keg-icon{font-size:1.15rem;line-height:1}
+.keg-info{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:3px 8px}
+.keg-val{font-size:1.05rem;font-weight:800;color:var(--amber)}
+.keg-lbl{font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.keg-bar{width:100%;height:4px;background:#2a2a2a;border-radius:2px;margin-top:2px}
+.keg-fill{height:100%;border-radius:2px}
+.keg-init{font-size:.7rem;color:var(--muted);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -56,21 +64,62 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 28 février 2026</div>
+  <div class="subtitle">Mise à jour le 03 mars 2026</div>
   <div class="stats">
-    <div><div class="stat-val">8</div><div class="stat-lbl">Bières</div></div>
+    <div><div class="stat-val">9</div><div class="stat-lbl">Bières</div></div>
     <div><div class="stat-val">47</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
     <div><div class="stat-val">30</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
+    <div><div class="stat-val">14</div><div class="stat-lbl">Litres en fût</div></div>
   </div>
 </header>
 <div class="grid">
   
+    <div class="card">
+      <img class="card-img" src="images/beer-15.jpg" loading="lazy" alt="Sabrolora Hops" onclick="openLb(this,'Sabrolora Hops')">
+      <div class="card-body">
+        <div class="card-name">Sabrolora Hops</div>
+        <div class="card-type">21C. Hazy IPA</div>
+        <div class="card-abv">ABV <strong>6.8 %</strong></div>
+        
+      <div class="keg-row">
+        <span class="keg-icon">🛢</span>
+        <div class="keg-info">
+          <span class="keg-val">14 L</span>
+          <span class="keg-lbl">en fût</span>
+          <div class="keg-bar"><div class="keg-fill" style="width:88%;background:var(--amber)"></div></div>
+        </div>
+        <span class="keg-init">/ 16 L</span>
+      </div>
+        <div class="stock-row">
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">33 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">75 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
+        </div>
+        
+        
+        <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span>📋 Sabrolora Hops</div>
+        <div class="card-brand">Pixel Brew</div>
+      </div>
+    </div>
     <div class="card">
       <img class="card-img" src="images/beer-13.jpg" loading="lazy" alt="StoutStout" onclick="openLb(this,'StoutStout')">
       <div class="card-body">
         <div class="card-name">StoutStout</div>
         <div class="card-type">15B. Irish Stout</div>
         <div class="card-abv">ABV <strong>4.3 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -100,6 +149,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">TripHops</div>
         <div class="card-type">26C. Belgian Tripel</div>
         <div class="card-abv">ABV <strong>6.8 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -129,6 +179,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">BlackHops</div>
         <div class="card-type">21B. Specialty IPA: Black IPA</div>
         <div class="card-abv">ABV <strong>6.6 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -158,6 +209,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">BeerTwin</div>
         <div class="card-type">21A. American IPA</div>
         <div class="card-abv">ABV <strong>6.6 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -187,6 +239,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">BeerTwin</div>
         <div class="card-type">21A. American IPA</div>
         <div class="card-abv">ABV <strong>6.6 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -216,6 +269,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">Lateral'Hops</div>
         <div class="card-type">18B. American Pale Ale</div>
         <div class="card-abv">ABV <strong>5.5 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -245,6 +299,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">BeerMono</div>
         <div class="card-type">18B. American Pale Ale</div>
         <div class="card-abv">ABV <strong>5.9 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
@@ -274,6 +329,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-name">Lis'IPA</div>
         <div class="card-type">18B. American Pale Ale</div>
         <div class="card-abv">ABV <strong>5.5 %</strong></div>
+        
         <div class="stock-row">
           
       <div class="si ok">
