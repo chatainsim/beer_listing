@@ -64,12 +64,12 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 03 mars 2026</div>
+  <div class="subtitle">Mise à jour le 10 mars 2026</div>
   <div class="stats">
     <div><div class="stat-val">9</div><div class="stat-lbl">Bières</div></div>
     <div><div class="stat-val">47</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
     <div><div class="stat-val">30</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
-    <div><div class="stat-val">14</div><div class="stat-lbl">Litres en fût</div></div>
+    
   </div>
 </header>
 <div class="grid">
@@ -84,9 +84,9 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
       <div class="keg-row">
         <span class="keg-icon">🛢</span>
         <div class="keg-info">
-          <span class="keg-val">14 L</span>
+          <span class="keg-val">0 L</span>
           <span class="keg-lbl">en fût</span>
-          <div class="keg-bar"><div class="keg-fill" style="width:88%;background:var(--amber)"></div></div>
+          <div class="keg-bar"><div class="keg-fill" style="width:0%;background:#333"></div></div>
         </div>
         <span class="keg-init">/ 16 L</span>
       </div>
@@ -110,36 +110,6 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         
         
         <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span>📋 Sabrolora Hops</div>
-        <div class="card-brand">Pixel Brew</div>
-      </div>
-    </div>
-    <div class="card">
-      <img class="card-img" src="images/beer-13.jpg" loading="lazy" alt="StoutStout" onclick="openLb(this,'StoutStout')">
-      <div class="card-body">
-        <div class="card-name">StoutStout</div>
-        <div class="card-type">15B. Irish Stout</div>
-        <div class="card-abv">ABV <strong>4.3 %</strong></div>
-        
-        <div class="stock-row">
-          
-      <div class="si ok">
-        <div class="si-n">6</div>
-        <div class="si-l">33 cl</div>
-        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
-        
-      </div>
-          <div class="stock-sep"></div>
-          
-      <div class="si ok">
-        <div class="si-n">5</div>
-        <div class="si-l">75 cl</div>
-        <div class="si-bar"><div class="si-fill" style="width:63%"></div></div>
-        
-      </div>
-        </div>
-        
-        
-        <div class="card-foot">🍺 Brassé le 30 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 23 janvier 2026<span class="sep">·</span>📋 StoutStout</div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
@@ -170,6 +140,36 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         
         
         <div class="card-foot">🍺 Brassé le 09 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 16 janvier 2026<span class="sep">·</span>📋 TripHops</div>
+        <div class="card-brand">Pixel Brew</div>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img" src="images/beer-13.jpg" loading="lazy" alt="StoutStout" onclick="openLb(this,'StoutStout')">
+      <div class="card-body">
+        <div class="card-name">StoutStout</div>
+        <div class="card-type">15B. Irish Stout</div>
+        <div class="card-abv">ABV <strong>4.3 %</strong></div>
+        
+        <div class="stock-row">
+          
+      <div class="si ok">
+        <div class="si-n">6</div>
+        <div class="si-l">33 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si ok">
+        <div class="si-n">5</div>
+        <div class="si-l">75 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:63%"></div></div>
+        
+      </div>
+        </div>
+        
+        
+        <div class="card-foot">🍺 Brassé le 30 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 23 janvier 2026<span class="sep">·</span>📋 StoutStout</div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
@@ -372,7 +372,22 @@ function closeLb() {
   document.getElementById('lb').classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  // Lightbox image (vitrine)
+  const lb = document.getElementById('lb');
+  if (lb?.classList.contains('open')) { closeLb(); return; }
+  // Beer photo lightbox
+  const beerLb = document.getElementById('beer-lightbox');
+  if (beerLb?.style.display === 'flex') { closeBeerLightbox(); return; }
+  // Modal overlays — ferme le dernier ouvert
+  const openModals = [...document.querySelectorAll('.modal-overlay.open')];
+  if (!openModals.length) return;
+  const m = openModals[openModals.length - 1];
+  if (m.id === 'modal-settings') closeSettings();
+  else if (m.id === 'modal-scale') closeScaleModal();
+  else closeModal(m.id);
+});
 </script>
 </body>
 </html>
