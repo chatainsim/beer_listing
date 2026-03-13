@@ -504,16 +504,16 @@ function buildQuery(nafRaw, cp) {
   const periodeParts = [];
   if (nafCode) periodeParts.push('activitePrincipaleEtablissement:' + nafCode);
   periodeParts.push('etatAdministratifEtablissement:A');
-  let parts = ['periode(' + periodeParts.join(' AND ') + ')'];
   const cpTrim = cp.trim();
   if (cpTrim) {
-    if (/^[0-9]{2}$/.test(cpTrim)) {
-      parts.push('departementEtablissement:' + cpTrim);
+    // departementEtablissement is also a historized field -> inside periode()
+    if (/^[0-9]{2,3}$/.test(cpTrim)) {
+      periodeParts.push('departementEtablissement:' + cpTrim);
     } else {
-      parts.push('codePostalEtablissement:' + cpTrim);
+      periodeParts.push('codePostalEtablissement:' + cpTrim);
     }
   }
-  return { q: parts.join(' AND '), nafCode };
+  return { q: 'periode(' + periodeParts.join(' AND ') + ')', nafCode };
 }
 
 function buildAddr(etab) {
