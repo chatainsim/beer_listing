@@ -506,9 +506,10 @@ function buildQuery(nafRaw, cp) {
   periodeParts.push('etatAdministratifEtablissement:A');
   const cpTrim = cp.trim();
   if (cpTrim) {
-    // departementEtablissement is also a historized field -> inside periode()
+    // Use codePostalEtablissement for everything — it works inside periode()
+    // For a 2 or 3-digit dept code, append * wildcard (38 -> 38*)
     if (/^[0-9]{2,3}$/.test(cpTrim)) {
-      periodeParts.push('departementEtablissement:' + cpTrim);
+      periodeParts.push('codePostalEtablissement:' + cpTrim + '*');
     } else {
       periodeParts.push('codePostalEtablissement:' + cpTrim);
     }
