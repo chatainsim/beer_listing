@@ -385,6 +385,10 @@
       <input type="checkbox" id="inclureFermes" style="width:14px;height:14px;accent-color:var(--accent);cursor:pointer" />
       Inclure les fermés
     </label>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal;color:var(--muted);font-size:.8rem;white-space:nowrap" title="Enchaîne plusieurs requêtes pour dépasser la limite de 200 résultats">
+      <input type="checkbox" id="toutCharger" style="width:14px;height:14px;accent-color:var(--accent);cursor:pointer" />
+      Tout charger <span style="color:#bbb;font-size:.7rem">(multi-requêtes)</span>
+    </label>
   </div>
 
   <button class="btn-search" id="searchBtn" onclick="doSearch()">⌕ Rechercher</button>
@@ -409,6 +413,12 @@
     <div class="sidebar-header">
       <h2 id="sidebarTitle">ÉTABLISSEMENTS</h2>
       <span class="count-pill" id="countPill">—</span>
+      <button id="exportBtn" onclick="exportHtml()" disabled title="Exporter en page HTML autonome" style="
+        background:var(--accent2); border:none; border-radius:4px; color:#fff;
+        cursor:pointer; font-family:var(--sans); font-size:.72rem; font-weight:500;
+        padding:4px 10px; opacity:.4; transition:opacity .2s; white-space:nowrap;">
+        ⬇ Exporter HTML
+      </button>
     </div>
 
     <div class="geo-progress" id="geoProgress">
@@ -581,11 +591,18 @@ async function fetchSirene(q, debut, nombre, inseeKey) {
   return res.json();
 }
 
+function filterEtabs(etabs) {
+  const inclureFermes = document.getElementById('inclureFermes')?.checked;
+  if (inclureFermes) return etabs;
+  return etabs.filter(et => et.periodesEtablissement?.[0]?.etatAdministratifEtablissement === 'A');
+}
+
 async function doSearch(page = 0) {
-  const apiKey = document.getElementById('apiKey').value.trim();
-  const nafRaw = document.getElementById('nafInput').value.trim();
-  const cp     = document.getElementById('cpInput').value.trim();
-  const nb     = parseInt(document.getElementById('nbInput').value, 10);
+  const apiKey    = document.getElementById('apiKey').value.trim();
+  const nafRaw    = document.getElementById('nafInput').value.trim();
+  const cp        = document.getElementById('cpInput').value.trim();
+  const nb        = parseInt(document.getElementById('nbInput').value, 10);
+  const toutCharger = document.getElementById('toutCharger')?.checked;
 
   if (!apiKey) return showToast('<strong>Clé API manquante.</strong> Renseignez votre X-INSEE-Api-Key-Integration.');
   if (!nafRaw && !cp) return showToast('Renseignez au moins un code NAF ou un code postal.');
@@ -596,39 +613,69 @@ async function doSearch(page = 0) {
 
   document.getElementById('searchBtn').disabled = true;
   document.getElementById('paginationRow').style.display = 'none';
-  document.getElementById('resultsList').innerHTML = `
-    <div class="state-msg">
-      <div class="spinner"></div>
-      <div>Interrogation de l'API SIRENE…</div>
-      <div style="font-family:var(--mono);font-size:.65rem;color:#ccc;margin-top:6px;word-break:break-all">${q}</div>
-    </div>`;
   clearMarkers();
 
+  const setStatus = (msg) => {
+    document.getElementById('resultsList').innerHTML = `
+      <div class="state-msg">
+        <div class="spinner"></div>
+        <div>${msg}</div>
+        <div style="font-family:var(--mono);font-size:.65rem;color:#ccc;margin-top:6px;word-break:break-all">${q}</div>
+      </div>`;
+  };
+
   try {
-    const data = await fetchSirene(q, page * nb, nb, apiKey);
-    let etabs = data.etablissements || [];
-    totalResults = data.header?.total || 0;
+    if (toutCharger) {
+      // ── Multi-fetch mode ───────────────────────────────────────────
+      setStatus('Chargement page 1…');
+      const first = await fetchSirene(q, 0, 200, apiKey);
+      totalResults = first.header?.total || 0;
+      const maxPages = Math.ceil(Math.min(totalResults, 10000) / 200);
 
-    // Client-side filter: periode() matches historical periods too,
-    // so we check the most recent period's state explicitly
-    const inclureFermes = document.getElementById('inclureFermes')?.checked;
-    if (!inclureFermes) {
-      etabs = etabs.filter(et => {
-        const lastPeriode = et.periodesEtablissement?.[0];
-        return lastPeriode?.etatAdministratifEtablissement === 'A';
-      });
+      let allEtabs = first.etablissements || [];
+      document.getElementById('countPill').textContent =
+        `${allEtabs.length} / ${totalResults.toLocaleString('fr-FR')}`;
+
+      for (let p = 1; p < maxPages; p++) {
+        setStatus(`Chargement page ${p + 1} / ${maxPages}… (${allEtabs.length} établissements récupérés)`);
+        // Small delay to avoid hammering the API
+        await new Promise(r => setTimeout(r, 300));
+        const data = await fetchSirene(q, p * 200, 200, apiKey);
+        allEtabs = allEtabs.concat(data.etablissements || []);
+        document.getElementById('countPill').textContent =
+          `${allEtabs.length} / ${totalResults.toLocaleString('fr-FR')}`;
+      }
+
+      allEtabs = filterEtabs(allEtabs);
+      document.getElementById('sidebarTitle').textContent = `ÉTABLISSEMENTS${nafCode ? ' · ' + nafCode : ''}`;
+      document.getElementById('countPill').textContent =
+        `${allEtabs.length} / ${totalResults.toLocaleString('fr-FR')}`;
+
+      if (!allEtabs.length) {
+        document.getElementById('resultsList').innerHTML = `<div class="state-msg"><div class="big">🔍</div><div>Aucun établissement trouvé.</div></div>`;
+        document.getElementById('searchBtn').disabled = false;
+        return;
+      }
+      renderResults(allEtabs, allEtabs.length);
+
+    } else {
+      // ── Single-fetch mode (paginated) ──────────────────────────────
+      setStatus('Interrogation de l'API SIRENE…');
+      const data = await fetchSirene(q, page * nb, nb, apiKey);
+      let etabs = filterEtabs(data.etablissements || []);
+      totalResults = data.header?.total || 0;
+
+      document.getElementById('countPill').textContent = totalResults.toLocaleString('fr-FR');
+      document.getElementById('sidebarTitle').textContent = `ÉTABLISSEMENTS${nafCode ? ' · ' + nafCode : ''}`;
+
+      if (!etabs.length) {
+        document.getElementById('resultsList').innerHTML = `<div class="state-msg"><div class="big">🔍</div><div>Aucun établissement trouvé pour ces critères.</div></div>`;
+        document.getElementById('searchBtn').disabled = false;
+        return;
+      }
+      renderResults(etabs, nb);
     }
 
-    document.getElementById('countPill').textContent = totalResults.toLocaleString('fr-FR');
-    document.getElementById('sidebarTitle').textContent = `ÉTABLISSEMENTS${nafCode ? ' · ' + nafCode : ''}`;
-
-    if (!etabs.length) {
-      document.getElementById('resultsList').innerHTML = `<div class="state-msg"><div class="big">🔍</div><div>Aucun établissement trouvé pour ces critères.</div></div>`;
-      document.getElementById('searchBtn').disabled = false;
-      return;
-    }
-
-    renderResults(etabs, nb);
   } catch (err) {
     document.getElementById('resultsList').innerHTML = `<div class="state-msg"><div class="big">⚠️</div><div>${err.message}</div></div>`;
     document.getElementById('searchBtn').disabled = false;
@@ -676,6 +723,7 @@ function renderResults(etabs, nb) {
   const geoF = document.getElementById('geoFill');
   geoP.style.display = 'block';
   let done = 0;
+  window._exportData = []; // reset export dataset
 
   (async () => {
     for (const { card, etab, naf, name, addr } of cardRefs) {
@@ -685,6 +733,7 @@ function renderResults(etabs, nb) {
       geoF.style.width = `${(done / cardRefs.length) * 100}%`;
 
       if (coords) {
+        window._exportData.push({ name, siret: etab.siret || '', naf, etat: etab.periodesEtablissement?.[0]?.etatAdministratifEtablissement || '', addr, lat: coords.lat, lon: coords.lon });
         const marker = L.marker([coords.lat, coords.lon], { icon: makeIcon(false) }).addTo(map);
         markers.push(marker);
         marker.bindPopup(`
@@ -724,6 +773,8 @@ function renderResults(etabs, nb) {
 
     geoP.style.display = 'none';
     document.getElementById('searchBtn').disabled = false;
+    const expBtn = document.getElementById('exportBtn');
+    if (expBtn) { expBtn.disabled = false; expBtn.style.opacity = '1'; }
 
     if (markers.length) {
       const grp = L.featureGroup(markers);
@@ -756,6 +807,145 @@ function showToast(html) {
   t.innerHTML = html;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 4000);
+}
+
+
+function exportHtml() {
+  const data = window._exportData || [];
+  if (!data.length) return showToast('Aucune donnée à exporter. Attendez la fin du géocodage.');
+
+  const nafCode = document.getElementById('nafInput').value.trim();
+  const cp      = document.getElementById('cpInput').value.trim();
+  const title   = `Sirene — ${nafCode}${cp ? ' · ' + cp : ''} — ${data.length} établissements`;
+  const now     = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+
+  // Build markers JS array
+  const markersJs = data.map(d => `{
+    name:${JSON.stringify(d.name)}, siret:${JSON.stringify(d.siret)},
+    naf:${JSON.stringify(d.naf)}, etat:${JSON.stringify(d.etat)},
+    addr1:${JSON.stringify(d.addr.line1)}, addr2:${JSON.stringify(d.addr.line2)},
+    lat:${d.lat}, lon:${d.lon}
+  }`).join(',
+');
+
+  // Build list HTML
+  const listHtml = data.map(d => `
+    <div class="card" onclick="focusMarker(${d.lat},${d.lon})">
+      <div class="name">${d.name}</div>
+      <div class="siret">${d.siret}</div>
+      <div class="tags">
+        <span class="tag-naf">${d.naf}</span>
+        <span class="tag-etat ${d.etat==='A'?'actif':'ferme'}">${d.etat==='A'?'Actif':'Fermé'}</span>
+      </div>
+      <div class="addr">📍 ${[d.addr.line1, d.addr.line2].filter(Boolean).join(', ') || '—'}</div>
+    </div>`).join('');
+
+  const center = data[0] ? `[${data[0].lat}, ${data[0].lon}]` : '[46.6, 2.3]';
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>${title}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"><\/script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#f5f3ef;color:#1a1a1a}
+header{background:#1a3a6b;color:#fff;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+header h1{font-size:1rem;font-weight:700}
+header .meta{font-size:.75rem;opacity:.7;margin-left:auto}
+.body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #ddd;display:flex;flex-direction:column;overflow:hidden}
+.sidebar-head{padding:10px 14px;border-bottom:1px solid #ddd;font-size:.75rem;font-weight:700;color:#555;letter-spacing:.05em;text-transform:uppercase}
+.list{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px}
+.list::-webkit-scrollbar{width:4px}
+.list::-webkit-scrollbar-thumb{background:#ddd;border-radius:2px}
+.card{background:#fafaf8;border:1px solid #e5e2d9;border-left:3px solid transparent;border-radius:6px;padding:10px 12px;cursor:pointer;transition:border-color .15s}
+.card:hover{border-left-color:#1a3a6b}
+.card.active{border-left-color:#c8342a;background:#fff8f7}
+.name{font-weight:600;font-size:.85rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.siret{font-family:monospace;font-size:.65rem;color:#999;margin-bottom:4px}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:5px}
+.tag-naf{background:#e8eef8;color:#1a3a6b;border-radius:3px;font-size:.65rem;padding:2px 6px;font-weight:600}
+.tag-etat{border-radius:3px;font-size:.65rem;padding:2px 6px;font-weight:600}
+.actif{background:#e6f4ec;color:#2d7a50}
+.ferme{background:#fdecea;color:#c8342a}
+.addr{font-size:.75rem;color:#888}
+#map{flex:1}
+.leaflet-popup-content-wrapper{border-radius:6px!important;font-family:system-ui,sans-serif!important}
+.popup-name{font-weight:700;font-size:.85rem;margin-bottom:3px}
+.popup-naf{font-family:monospace;font-size:.72rem;color:#1a3a6b;margin-bottom:4px}
+.popup-addr{font-size:.75rem;color:#888}
+</style>
+</head>
+<body>
+<header>
+  <h1>📍 ${title}</h1>
+  <div class="meta">Exporté le ${now} — Source : API Sirene INSEE</div>
+</header>
+<div class="body">
+  <div class="sidebar">
+    <div class="sidebar-head">${data.length} établissements</div>
+    <div class="list" id="list">${listHtml}</div>
+  </div>
+  <div id="map"></div>
+</div>
+<script>
+const DATA = [${markersJs}];
+const map = L.map('map').setView(${center}, 10);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(map);
+
+function makeIcon(active){
+  const c = active ? '#c8342a' : '#1a3a6b';
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32"><path d="M12 0C5.37 0 0 5.37 0 12c0 9 12 20 12 20S24 21 24 12C24 5.37 18.63 0 12 0z" fill="'+c+'"/><circle cx="12" cy="12" r="4.5" fill="#fff"/></svg>';
+  return L.divIcon({html:svg,className:'',iconSize:[24,32],iconAnchor:[12,32],popupAnchor:[0,-34]});
+}
+
+let activeCard = null, activeMarker = null;
+const cards = document.querySelectorAll('.card');
+const markerList = [];
+
+DATA.forEach((d, i) => {
+  const m = L.marker([d.lat, d.lon], {icon: makeIcon(false)}).addTo(map);
+  m.bindPopup('<div class="popup-name">'+d.name+'</div><div class="popup-naf">'+d.naf+'</div><div class="popup-addr">📍 '+[d.addr1,d.addr2].filter(Boolean).join(' ')+'</div>');
+  markerList.push(m);
+  cards[i].addEventListener('click', () => {
+    if(activeCard) activeCard.classList.remove('active');
+    if(activeMarker) activeMarker.setIcon(makeIcon(false));
+    cards[i].classList.add('active'); activeCard = cards[i];
+    m.setIcon(makeIcon(true)); activeMarker = m;
+    map.setView([d.lat,d.lon],15); m.openPopup();
+  });
+  m.on('click', () => {
+    if(activeCard) activeCard.classList.remove('active');
+    if(activeMarker) activeMarker.setIcon(makeIcon(false));
+    cards[i].classList.add('active'); activeCard = cards[i];
+    m.setIcon(makeIcon(true)); activeMarker = m;
+    cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+});
+
+function focusMarker(lat,lon){
+  const i = DATA.findIndex(d=>d.lat===lat&&d.lon===lon);
+  if(i>=0){ map.setView([lat,lon],15); markerList[i].openPopup(); }
+}
+
+if(markerList.length){
+  const grp = L.featureGroup(markerList);
+  map.fitBounds(grp.getBounds().pad(0.12));
+}
+<\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `sirene-${nafCode.replace(/[^a-z0-9]/gi,'-')}-${cp||'france'}-${data.length}etabs.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 document.addEventListener('keydown', e => {
