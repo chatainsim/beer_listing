@@ -507,17 +507,21 @@ function resolveNaf(raw) {
 function buildQuery(nafRaw, cp) {
   const nafCode = resolveNaf(nafRaw);
   let parts = [];
-  if (nafCode) parts.push(`activitePrincipaleEtablissement:"${nafCode}"`);
+  if (nafCode) {
+    // Escape the dot in NAF codes (e.g. 11.05Z -> 11\.05Z) — dot is special in Lucene
+    const nafEscaped = nafCode.replace('.', '\\.');
+    parts.push('activitePrincipaleEtablissement:' + nafEscaped);
+  }
   const cpTrim = cp.trim();
   if (cpTrim) {
     if (/^\d{2}$/.test(cpTrim)) {
-      parts.push(`codePostalEtablissement:${cpTrim}???`);
+      parts.push('codePostalEtablissement:' + cpTrim + '*');
     } else {
-      parts.push(`codePostalEtablissement:${cpTrim}`);
+      parts.push('codePostalEtablissement:' + cpTrim);
     }
   }
-  parts.push("etatAdministratifEtablissement:A");
-  return { q: parts.join(" AND "), nafCode };
+  parts.push('etatAdministratifEtablissement:A');
+  return { q: parts.join(' AND '), nafCode };
 }
 
 function buildAddr(etab) {
