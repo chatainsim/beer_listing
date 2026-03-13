@@ -366,7 +366,7 @@
 
   <div class="field-group">
     <label>Code postal / Dép.</label>
-    <input class="input-cp" id="cpInput" type="text" placeholder="ex: 75, 33, 69001" />
+    <input class="input-cp" id="cpInput" type="text" placeholder="ex: 38, 69, 75013" />
   </div>
 
   <div class="field-group">
@@ -502,16 +502,15 @@ function resolveNaf(raw) {
 function buildQuery(nafRaw, cp) {
   const nafCode = resolveNaf(nafRaw);
   let parts = [];
-  if (nafCode) {
-    // Escape the dot in NAF codes (e.g. 11.05Z -> 11\.05Z) — dot is special in Lucene
-    const nafEscaped = nafCode.replace('.', '\\.');
-    parts.push('activitePrincipaleEtablissement:' + nafEscaped);
-  }
+  // Send NAF code as-is — the Sirene API handles the dot natively (e.g. 11.05Z)
+  if (nafCode) parts.push('activitePrincipaleEtablissement:' + nafCode);
   const cpTrim = cp.trim();
   if (cpTrim) {
     if (/^\d{2}$/.test(cpTrim)) {
-      parts.push('codePostalEtablissement:' + cpTrim + '*');
+      // Use departementEtablissement for 2-digit dept — no wildcard needed
+      parts.push('departementEtablissement:' + cpTrim);
     } else {
+      // Full postal code
       parts.push('codePostalEtablissement:' + cpTrim);
     }
   }
