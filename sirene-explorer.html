@@ -379,6 +379,14 @@
     </select>
   </div>
 
+  <div class="field-group" style="justify-content:flex-end">
+    <label>&nbsp;</label>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:normal;color:var(--muted);font-size:.8rem;white-space:nowrap">
+      <input type="checkbox" id="inclureFermes" style="width:14px;height:14px;accent-color:var(--accent);cursor:pointer" />
+      Inclure les fermés
+    </label>
+  </div>
+
   <button class="btn-search" id="searchBtn" onclick="doSearch()">⌕ Rechercher</button>
 </div>
 
@@ -504,7 +512,8 @@ function buildQuery(nafRaw, cp) {
   // Historized fields must be inside periode()
   const periodeParts = [];
   if (nafCode) periodeParts.push('activitePrincipaleEtablissement:' + nafCode);
-  periodeParts.push('etatAdministratifEtablissement:A');
+  const inclureFermes = document.getElementById('inclureFermes')?.checked;
+  if (!inclureFermes) periodeParts.push('etatAdministratifEtablissement:A');
 
   let parts = ['periode(' + periodeParts.join(' AND ') + ')'];
 
