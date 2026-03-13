@@ -501,20 +501,24 @@ function resolveNaf(raw) {
 
 function buildQuery(nafRaw, cp) {
   const nafCode = resolveNaf(nafRaw);
+  // Historized fields must be inside periode()
   const periodeParts = [];
   if (nafCode) periodeParts.push('activitePrincipaleEtablissement:' + nafCode);
   periodeParts.push('etatAdministratifEtablissement:A');
+
+  let parts = ['periode(' + periodeParts.join(' AND ') + ')'];
+
+  // codePostalEtablissement goes OUTSIDE periode() — wildcards work there
   const cpTrim = cp.trim();
   if (cpTrim) {
-    // Use codePostalEtablissement for everything — it works inside periode()
-    // For a 2 or 3-digit dept code, append * wildcard (38 -> 38*)
     if (/^[0-9]{2,3}$/.test(cpTrim)) {
-      periodeParts.push('codePostalEtablissement:' + cpTrim + '*');
+      parts.push('codePostalEtablissement:' + cpTrim + '*');
     } else {
-      periodeParts.push('codePostalEtablissement:' + cpTrim);
+      parts.push('codePostalEtablissement:' + cpTrim);
     }
   }
-  return { q: 'periode(' + periodeParts.join(' AND ') + ')', nafCode };
+
+  return { q: parts.join(' AND '), nafCode };
 }
 
 function buildAddr(etab) {
