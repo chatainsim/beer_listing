@@ -356,13 +356,8 @@
 <div class="toolbar">
   <div class="field-group">
     <label>Clé API INSEE</label>
-    <input class="input-key" id="apiKey" type="password" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+    <input class="input-key" id="apiKey" type="password" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" oninput="saveKey(this.value)" />
   </div>
-  <div class="field-group">
-    <label>Clé API Anthropic (proxy CORS)</label>
-    <input class="input-key" id="anthropicKey" type="password" placeholder="sk-ant-…" />
-  </div>
-
   <div class="field-group">
     <label>Code NAF / Activité</label>
     <input class="input-naf" id="nafInput" type="text" placeholder="ex: 11.05Z  ou  brasserie" list="nafSuggestions" />
@@ -745,6 +740,18 @@ function showToast(html) {
 document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.id !== 'apiKey') doSearch();
 });
+
+// Persist INSEE API key in localStorage
+function saveKey(val) {
+  if (val) localStorage.setItem('insee_api_key', val);
+  else localStorage.removeItem('insee_api_key');
+}
+
+// Restore key on load
+(function() {
+  const saved = localStorage.getItem('insee_api_key');
+  if (saved) document.getElementById('apiKey').value = saved;
+})();
 </script>
 </body>
 </html>
