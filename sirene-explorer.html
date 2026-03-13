@@ -606,8 +606,18 @@ async function doSearch(page = 0) {
 
   try {
     const data = await fetchSirene(q, page * nb, nb, apiKey);
-    const etabs = data.etablissements || [];
+    let etabs = data.etablissements || [];
     totalResults = data.header?.total || 0;
+
+    // Client-side filter: periode() matches historical periods too,
+    // so we check the most recent period's state explicitly
+    const inclureFermes = document.getElementById('inclureFermes')?.checked;
+    if (!inclureFermes) {
+      etabs = etabs.filter(et => {
+        const lastPeriode = et.periodesEtablissement?.[0];
+        return lastPeriode?.etatAdministratifEtablissement === 'A';
+      });
+    }
 
     document.getElementById('countPill').textContent = totalResults.toLocaleString('fr-FR');
     document.getElementById('sidebarTitle').textContent = `ÉTABLISSEMENTS${nafCode ? ' · ' + nafCode : ''}`;
