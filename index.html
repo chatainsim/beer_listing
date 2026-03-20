@@ -64,16 +64,46 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 10 mars 2026</div>
+  <div class="subtitle">Mise à jour le 20 mars 2026</div>
   <div class="stats">
-    <div><div class="stat-val">9</div><div class="stat-lbl">Bières</div></div>
-    <div><div class="stat-val">47</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
-    <div><div class="stat-val">30</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
+    <div><div class="stat-val">10</div><div class="stat-lbl">Bières</div></div>
+    <div><div class="stat-val">53</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
+    <div><div class="stat-val">36</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
     
   </div>
 </header>
 <div class="grid">
   
+    <div class="card">
+      <img class="card-img" src="images/beer-18.jpg" loading="lazy" alt="Red Beard Beery" onclick="openLb(this,'Red Beard Beery')">
+      <div class="card-body">
+        <div class="card-name">Red Beard Beery</div>
+        <div class="card-type">28B. Mixed-Fermentation Sour Beer</div>
+        <div class="card-abv">ABV <strong>6.5 %</strong></div>
+        
+        <div class="stock-row">
+          
+      <div class="si ok">
+        <div class="si-n">6</div>
+        <div class="si-l">33 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si ok">
+        <div class="si-n">6</div>
+        <div class="si-l">75 cl</div>
+        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        
+      </div>
+        </div>
+        
+        <p class="card-desc">Pastry Sour au fruits rouges</p>
+        <div class="card-foot">🍺 Brassé le 27 février 2026<span class="sep">·</span>🍾 Embouteillé le 20 mars 2026<span class="sep">·</span>📋 Red Beard Beery</div>
+        <div class="card-brand">Pixel Brew</div>
+      </div>
+    </div>
     <div class="card">
       <img class="card-img" src="images/beer-15.jpg" loading="lazy" alt="Sabrolora Hops" onclick="openLb(this,'Sabrolora Hops')">
       <div class="card-body">
@@ -374,19 +404,8 @@ function closeLb() {
 }
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
-  // Lightbox image (vitrine)
   const lb = document.getElementById('lb');
   if (lb?.classList.contains('open')) { closeLb(); return; }
-  // Beer photo lightbox
-  const beerLb = document.getElementById('beer-lightbox');
-  if (beerLb?.style.display === 'flex') { closeBeerLightbox(); return; }
-  // Modal overlays — ferme le dernier ouvert
-  const openModals = [...document.querySelectorAll('.modal-overlay.open')];
-  if (!openModals.length) return;
-  const m = openModals[openModals.length - 1];
-  if (m.id === 'modal-settings') closeSettings();
-  else if (m.id === 'modal-scale') closeScaleModal();
-  else closeModal(m.id);
 });
 </script>
 </body>
