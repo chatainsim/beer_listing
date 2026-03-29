@@ -45,6 +45,8 @@ h1{font-size:2.2rem;font-weight:900;color:var(--amber);letter-spacing:-.03em;mar
 .card-desc{font-size:.82rem;color:#aaa;line-height:1.55;flex:1}
 .card-foot{font-size:.71rem;color:#555;display:flex;gap:6px;flex-wrap:wrap;margin-top:2px;padding-top:8px;border-top:1px solid var(--border);align-items:center}
 .sep{color:#333}
+a.recipe-link{color:var(--amber);text-decoration:none;font-weight:500}
+a.recipe-link:hover{text-decoration:underline}
 .empty{text-align:center;color:var(--muted);padding:80px 20px;grid-column:1/-1}
 footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px solid var(--border)}
 .appname{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--amber);opacity:.75;margin-bottom:10px}
@@ -70,7 +72,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 23 mars 2026</div>
+  <div class="subtitle">Mise à jour le 29 mars 2026</div>
   <div class="stats">
     <div><div class="stat-val">10</div><div class="stat-lbl">Bières</div></div>
     <div><div class="stat-val">53</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
@@ -79,7 +81,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   </div>
 </header>
 <div class="grid">
-    <div class="card">
+    <div class="card" id="beer-18">
       <img class="card-img" src="images/beer-18.jpg" loading="lazy" alt="Red Beard Berry" onclick="openLb(this,'Red Beard Berry')">
       <div class="card-body">
         <div class="card-name">Red Beard Berry</div>
@@ -106,11 +108,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         <div class="card-origin">📍 Nomis</div>
         <p class="card-desc">Pastry Sour au fruits rouges</p>
-        <div class="card-foot">🍺 Brassé le 27 février 2026<span class="sep">·</span>🍾 Embouteillé le 20 mars 2026<span class="sep">·</span>📋 Red Beard Berry</div>
+        <div class="card-foot">🍺 Brassé le 27 février 2026<span class="sep">·</span>🍾 Embouteillé le 20 mars 2026<span class="sep">·</span><a class="recipe-link" href="recipes/10.html">📋 Red Beard Berry</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-12">
       <img class="card-img" src="images/beer-12.jpg" loading="lazy" alt="TripHops" onclick="openLb(this,'TripHops')">
       <div class="card-body">
         <div class="card-name">TripHops</div>
@@ -137,11 +139,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 09 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 16 janvier 2026<span class="sep">·</span>📋 TripHops</div>
+        <div class="card-foot">🍺 Brassé le 09 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 16 janvier 2026<span class="sep">·</span><a class="recipe-link" href="recipes/7.html">📋 TripHops</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-13">
       <img class="card-img" src="images/beer-13.jpg" loading="lazy" alt="StoutStout" onclick="openLb(this,'StoutStout')">
       <div class="card-body">
         <div class="card-name">StoutStout</div>
@@ -168,11 +170,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 30 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 23 janvier 2026<span class="sep">·</span>📋 StoutStout</div>
+        <div class="card-foot">🍺 Brassé le 30 décembre 2025<span class="sep">·</span>🍾 Embouteillé le 23 janvier 2026<span class="sep">·</span><a class="recipe-link" href="recipes/8.html">📋 StoutStout</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-11">
       <img class="card-img" src="images/beer-11.jpg" loading="lazy" alt="BlackHops" onclick="openLb(this,'BlackHops')">
       <div class="card-body">
         <div class="card-name">BlackHops</div>
@@ -199,11 +201,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 28 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 12 décembre 2025<span class="sep">·</span>📋 BlackHops</div>
+        <div class="card-foot">🍺 Brassé le 28 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 12 décembre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/6.html">📋 BlackHops</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-10">
       <img class="card-img" src="images/beer-10.jpg" loading="lazy" alt="BeerTwin" onclick="openLb(this,'BeerTwin')">
       <div class="card-body">
         <div class="card-name">BeerTwin</div>
@@ -230,11 +232,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         <p class="card-desc">BeerTwin Citra</p>
-        <div class="card-foot">🍺 Brassé le 10 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 27 novembre 2025<span class="sep">·</span>📋 BeerTwin</div>
+        <div class="card-foot">🍺 Brassé le 10 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 27 novembre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/5.html">📋 BeerTwin</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-9">
       <img class="card-img" src="images/beer-9.jpg" loading="lazy" alt="BeerTwin" onclick="openLb(this,'BeerTwin')">
       <div class="card-body">
         <div class="card-name">BeerTwin</div>
@@ -261,11 +263,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         <p class="card-desc">BeerTwin Barbe Rouge</p>
-        <div class="card-foot">🍺 Brassé le 10 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 26 novembre 2025<span class="sep">·</span>📋 BeerTwin</div>
+        <div class="card-foot">🍺 Brassé le 10 novembre 2025<span class="sep">·</span>🍾 Embouteillé le 26 novembre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/5.html">📋 BeerTwin</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-8">
       <img class="card-img" src="images/beer-8.jpg" loading="lazy" alt="Lateral'Hops" onclick="openLb(this,'Lateral'Hops')">
       <div class="card-body">
         <div class="card-name">Lateral'Hops</div>
@@ -292,11 +294,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 10 octobre 2025<span class="sep">·</span>🍾 Embouteillé le 26 octobre 2025<span class="sep">·</span>📋 Lateral'Hops</div>
+        <div class="card-foot">🍺 Brassé le 10 octobre 2025<span class="sep">·</span>🍾 Embouteillé le 26 octobre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/4.html">📋 Lateral'Hops</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-7">
       <img class="card-img" src="images/beer-7.jpg" loading="lazy" alt="BeerMono" onclick="openLb(this,'BeerMono')">
       <div class="card-body">
         <div class="card-name">BeerMono</div>
@@ -323,11 +325,11 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 21 septembre 2025<span class="sep">·</span>🍾 Embouteillé le 07 octobre 2025<span class="sep">·</span>📋 Lis'IPA</div>
+        <div class="card-foot">🍺 Brassé le 21 septembre 2025<span class="sep">·</span>🍾 Embouteillé le 07 octobre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/3.html">📋 Lis'IPA</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
-    <div class="card">
+    <div class="card" id="beer-6">
       <img class="card-img" src="images/beer-6.jpg" loading="lazy" alt="Lis'IPA" onclick="openLb(this,'Lis'IPA')">
       <div class="card-body">
         <div class="card-name">Lis'IPA</div>
@@ -354,7 +356,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 13 septembre 2025<span class="sep">·</span>🍾 Embouteillé le 27 septembre 2025<span class="sep">·</span>📋 Lis'IPA</div>
+        <div class="card-foot">🍺 Brassé le 13 septembre 2025<span class="sep">·</span>🍾 Embouteillé le 27 septembre 2025<span class="sep">·</span><a class="recipe-link" href="recipes/3.html">📋 Lis'IPA</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div></div>
@@ -365,7 +367,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
        <div class="section-divider-line"></div>
      </div>
      <div class="grid grid-exhausted">
-    <div class="card">
+    <div class="card" id="beer-15">
       <img class="card-img" src="images/beer-15.jpg" loading="lazy" alt="Sabrolora Hops" onclick="openLb(this,'Sabrolora Hops')">
       <div class="card-body">
         <div class="card-name">Sabrolora Hops</div>
@@ -401,7 +403,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         </div>
         
         
-        <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span>📋 Sabrolora Hops</div>
+        <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span><a class="recipe-link" href="recipes/9.html">📋 Sabrolora Hops</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div></div>
