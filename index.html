@@ -72,10 +72,10 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 04 avril 2026</div>
+  <div class="subtitle">Mise à jour le 05 avril 2026</div>
   <div class="stats">
     <div><div class="stat-val">10</div><div class="stat-lbl">Bières</div></div>
-    <div><div class="stat-val">52</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
+    <div><div class="stat-val">50</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
     <div><div class="stat-val">29</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
     
   </div>
@@ -278,9 +278,9 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="stock-row">
           
       <div class="si ok">
-        <div class="si-n">7</div>
+        <div class="si-n">6</div>
         <div class="si-l">33 cl</div>
-        <div class="si-bar"><div class="si-fill" style="width:78%"></div></div>
+        <div class="si-bar"><div class="si-fill" style="width:67%"></div></div>
         
       </div>
           <div class="stock-sep"></div>
@@ -309,9 +309,9 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="stock-row">
           
       <div class="si ok">
-        <div class="si-n">9</div>
+        <div class="si-n">8</div>
         <div class="si-l">33 cl</div>
-        <div class="si-bar"><div class="si-fill" style="width:100%"></div></div>
+        <div class="si-bar"><div class="si-fill" style="width:89%"></div></div>
         
       </div>
           <div class="stock-sep"></div>
@@ -411,7 +411,7 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
 
 <div id="lb" onclick="closeLb()">
   <button id="lb-close" onclick="closeLb()" title="Fermer">✕</button>
-  <img id="lb-img" src="" alt="">
+  <img id="lb-img" src="" alt="" onclick="event.stopPropagation();closeLb()" style="cursor:zoom-out">
   <div id="lb-caption"></div>
 </div>
 <script>
