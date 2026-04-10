@@ -72,12 +72,12 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
   <img src="images/app-icon.png" alt="" style="width:56px;height:56px;object-fit:contain;border-radius:12px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
   <div class="appname">Pixel Brew</div>
   <h1>🍺 Ma cave à bières</h1>
-  <div class="subtitle">Mise à jour le 05 avril 2026</div>
+  <div class="subtitle">Mise à jour le 10 avril 2026</div>
   <div class="stats">
     <div><div class="stat-val">10</div><div class="stat-lbl">Bières</div></div>
     <div><div class="stat-val">50</div><div class="stat-lbl">Bouteilles 33 cl</div></div>
     <div><div class="stat-val">29</div><div class="stat-lbl">Bouteilles 75 cl</div></div>
-    
+    <div><div class="stat-val">10</div><div class="stat-lbl">Litres en fût</div></div>
   </div>
 </header>
 <div class="grid">
@@ -109,6 +109,46 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
         <div class="card-origin">📍 Nomis</div>
         <p class="card-desc">Pastry Sour au fruits rouges</p>
         <div class="card-foot">🍺 Brassé le 27 février 2026<span class="sep">·</span>🍾 Embouteillé le 20 mars 2026<span class="sep">·</span><a class="recipe-link" href="recipes/10.html">📋 Red Beard Berry</a><span class="sep">·</span><a class="recipe-link" href="https://photos.app.goo.gl/kVix6mwD2ZRiBFdy9" target="_blank" rel="noopener">📷 Photos</a></div>
+        <div class="card-brand">Pixel Brew</div>
+      </div>
+    </div>
+    <div class="card" id="beer-15">
+      <img class="card-img" src="images/beer-15.jpg" loading="lazy" alt="Sabrolora Hops" onclick="openLb(this,'Sabrolora Hops')">
+      <div class="card-body">
+        <div class="card-name">Sabrolora Hops</div>
+        <div class="card-type">21C. Hazy IPA</div>
+        <div class="card-abv">ABV <strong>6.8 %</strong></div>
+        
+        
+      <div class="keg-row">
+        <span class="keg-icon">🛢</span>
+        <div class="keg-info">
+          <span class="keg-val">10 L</span>
+          <span class="keg-lbl">en fût</span>
+          <div class="keg-bar"><div class="keg-fill" style="width:63%;background:var(--amber)"></div></div>
+        </div>
+        <span class="keg-init">/ 16 L</span>
+      </div>
+        <div class="stock-row">
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">33 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
+          <div class="stock-sep"></div>
+          
+      <div class="si zero">
+        <div class="si-n">–</div>
+        <div class="si-l">75 cl</div>
+        
+        <div class="si-empty">épuisé</div>
+      </div>
+        </div>
+        
+        
+        <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span><a class="recipe-link" href="recipes/9.html">📋 Sabrolora Hops</a><span class="sep">·</span><a class="recipe-link" href="https://photos.app.goo.gl/GvAz2TLqRjPBfjTWA" target="_blank" rel="noopener">📷 Photos</a></div>
         <div class="card-brand">Pixel Brew</div>
       </div>
     </div>
@@ -361,52 +401,6 @@ footer{text-align:center;padding:20px;font-size:.74rem;color:#444;border-top:1px
       </div>
     </div></div>
      
-     <div class="section-divider">
-       <div class="section-divider-line"></div>
-       <div class="section-divider-label">Épuisées (1)</div>
-       <div class="section-divider-line"></div>
-     </div>
-     <div class="grid grid-exhausted">
-    <div class="card" id="beer-15">
-      <img class="card-img" src="images/beer-15.jpg" loading="lazy" alt="Sabrolora Hops" onclick="openLb(this,'Sabrolora Hops')">
-      <div class="card-body">
-        <div class="card-name">Sabrolora Hops</div>
-        <div class="card-type">21C. Hazy IPA</div>
-        <div class="card-abv">ABV <strong>6.8 %</strong></div>
-        
-        
-      <div class="keg-row">
-        <span class="keg-icon">🛢</span>
-        <div class="keg-info">
-          <span class="keg-val">0 L</span>
-          <span class="keg-lbl">en fût</span>
-          <div class="keg-bar"><div class="keg-fill" style="width:0%;background:#333"></div></div>
-        </div>
-        <span class="keg-init">/ 16 L</span>
-      </div>
-        <div class="stock-row">
-          
-      <div class="si zero">
-        <div class="si-n">–</div>
-        <div class="si-l">33 cl</div>
-        
-        <div class="si-empty">épuisé</div>
-      </div>
-          <div class="stock-sep"></div>
-          
-      <div class="si zero">
-        <div class="si-n">–</div>
-        <div class="si-l">75 cl</div>
-        
-        <div class="si-empty">épuisé</div>
-      </div>
-        </div>
-        
-        
-        <div class="card-foot">🍺 Brassé le 03 janvier 2026<span class="sep">·</span>🍾 Embouteillé le 01 février 2026<span class="sep">·</span><a class="recipe-link" href="recipes/9.html">📋 Sabrolora Hops</a><span class="sep">·</span><a class="recipe-link" href="https://photos.app.goo.gl/GvAz2TLqRjPBfjTWA" target="_blank" rel="noopener">📷 Photos</a></div>
-        <div class="card-brand">Pixel Brew</div>
-      </div>
-    </div></div>
 <footer>Généré par Pixel Brew</footer>
 
 <div id="lb" onclick="closeLb()">
