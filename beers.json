@@ -61,7 +61,7 @@
     "photo": "images/beer-21.jpg",
     "recipe_id": 38,
     "recipe_name": "La 51eme",
-    "refermentation": 1,
+    "refermentation": 0,
     "refermentation_days": 14,
     "sort_order": 0,
     "stock_33cl": 9,
