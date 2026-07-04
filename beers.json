@@ -54,7 +54,7 @@
     "id": 21,
     "initial_33cl": 9,
     "initial_75cl": 6,
-    "keg_initial_liters": null,
+    "keg_initial_liters": 0,
     "keg_liters": 0,
     "name": "#12 La 51eme",
     "origin": null,
