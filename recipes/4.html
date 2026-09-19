@@ -26,6 +26,27 @@ tr:hover td{background:rgba(255,255,255,.025)}
 .mash-info{display:flex;gap:20px;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:.88rem}
 .mi-val{font-weight:700}.mi-lbl{font-size:.7rem;color:var(--muted);margin-top:2px}
 .notes{font-size:.84rem;line-height:1.65;color:#aaa;white-space:pre-wrap;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px}
+.beer-head{display:flex;gap:16px;align-items:flex-start;text-align:left;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin:0 0 22px}
+.bh-img{width:112px;height:112px;object-fit:cover;border-radius:10px;flex:0 0 auto;background:#000}
+.bh-img-ph{display:flex;align-items:center;justify-content:center;font-size:2.4rem}
+.bh-body{min-width:0;flex:1}
+.bh-name{font-size:1.15rem;font-weight:800;line-height:1.2}
+.bh-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:3px;font-size:.78rem;color:var(--muted)}
+.bh-abv strong{color:var(--amber)}
+.bh-stock{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bsi{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:9px;padding:6px 10px;min-width:58px;text-align:center}
+.bsi-n{font-size:1rem;font-weight:800;line-height:1.1}
+.bsi-l{font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:2px}
+.bsi-bar{height:3px;border-radius:2px;background:#333;margin-top:5px;overflow:hidden}
+.bsi-fill{height:100%;background:var(--amber)}
+.bsi.zero .bsi-n{color:#555}
+.bsi.low .bsi-fill{background:#f59e0b}
+.bh-desc{font-size:.8rem;line-height:1.5;color:#aaa;margin-top:9px}
+.bh-dates{font-size:.72rem;color:var(--muted);margin-top:8px}
+.bh-sep{margin:0 6px;opacity:.5}
+.bh-link{display:inline-block;margin-top:10px;font-size:.75rem;color:var(--amber);text-decoration:none}
+.bh-link:hover{text-decoration:underline}
+@media(max-width:520px){.beer-head{flex-direction:column;align-items:stretch}.bh-img{width:100%;height:170px}}
 .beer-link-row{text-align:center;padding:32px 0}
 a.back-beer{display:inline-block;font-size:.85rem;color:var(--amber);text-decoration:none;padding:8px 22px;border:1px solid var(--amber);border-radius:20px}
 a.back-beer:hover{background:rgba(245,166,35,.1)}
@@ -35,6 +56,29 @@ footer{text-align:center;padding:20px;font-size:.72rem;color:#444;border-top:1px
 <body>
 <header>
   <a href="../index.html" class="back-link">← Cave à bières</a>
+  
+  <div class="beer-head">
+    <img class="bh-img" src="../images/beer-8.jpg" alt="Lateral'Hops" loading="lazy">
+    <div class="bh-body">
+      <div class="bh-name">Lateral'Hops</div>
+      <div class="bh-meta">
+        <span class="bh-type">18B. American Pale Ale</span>
+        <span class="bh-abv">ABV <strong>5.5 %</strong></span>
+      </div>
+      <div class="bh-stock"><div class="bsi ok">
+      <div class="bsi-n">6</div>
+      <div class="bsi-l">33 cl</div>
+      <div class="bsi-bar"><div class="bsi-fill" style="width:67%"></div></div>
+    </div><div class="bsi zero">
+      <div class="bsi-n">–</div>
+      <div class="bsi-l">75 cl</div>
+      
+    </div></div>
+      
+      <div class="bh-dates">🍺 Brassé le 10 octobre 2025<span class="bh-sep">·</span>🍾 Embouteillé le 26 octobre 2025</div>
+      <a class="bh-link" href="../index.html#beer-8">Voir dans la cave →</a>
+    </div>
+  </div>
   <h1>Lateral'Hops</h1>
   <div class="subtitle">18B. American Pale Ale · 10 L</div>
   <div class="metrics"><div class="mc"><div class="mc-val">1.054</div><div class="mc-lbl">DI théo.</div></div><div class="mc"><div class="mc-val">1.014</div><div class="mc-lbl">DF théo.</div></div><div class="mc"><div class="mc-val">5.3 %</div><div class="mc-lbl">ABV théo.</div></div><div class="mc"><div class="mc-val">72 %</div><div class="mc-lbl">Rendement</div></div></div>
