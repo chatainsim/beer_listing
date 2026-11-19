@@ -36,7 +36,7 @@
     "taste_score_mouthfeel": null,
     "taste_score_finish": null,
     "deleted_at": null,
-    "refermentation": 1,
+    "refermentation": 0,
     "refermentation_days": 14,
     "stock_25cl": 0,
     "stock_50cl": 0,
